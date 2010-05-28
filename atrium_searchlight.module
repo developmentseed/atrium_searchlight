@@ -1,3 +1,22 @@
 <?php
 
 include_once('atrium_searchlight.features.inc');
+
+/**
+ * Implementation of hook_menu_alter().
+ */
+function atrium_searchlight_menu_alter(&$items) {
+  // Views: disable views that we are 'overriding'
+  $views_defaults = variable_get('views_defaults', array());
+  $disabled = array('atrium_search');
+  $set = FALSE;
+  foreach ($disabled as $view_name) {
+    if (empty($views_defaults[$view_name])) {
+      $set = TRUE;
+      $views_defaults[$view_name] = TRUE;
+    }
+  }
+  if ($set) {
+    variable_set('views_defaults', $views_defaults);
+  }
+}
