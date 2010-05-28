@@ -3,20 +3,47 @@
 include_once('atrium_searchlight.features.inc');
 
 /**
- * Implementation of hook_menu_alter().
+ * Implementation of hook_views_api().
  */
-function atrium_searchlight_menu_alter(&$items) {
-  // Views: disable views that we are 'overriding'
-  $views_defaults = variable_get('views_defaults', array());
-  $disabled = array('atrium_search');
-  $set = FALSE;
-  foreach ($disabled as $view_name) {
-    if (empty($views_defaults[$view_name])) {
-      $set = TRUE;
-      $views_defaults[$view_name] = TRUE;
-    }
-  }
-  if ($set) {
-    variable_set('views_defaults', $views_defaults);
+function atrium_searchlight_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Implementation of hook_views_default_views_alter().
+ */
+function atrium_searchlight_views_default_views_alter(&$views) {
+  if (isset($views['atrium_members'])) {
+    $view = $views['atrium_members'];
+    $view->set_display('default');
+    $filters = array(
+      'facets' => array(
+        'id' => 'facets',
+        'table' => 'searchlight',
+        'field' => 'facets',
+      ),
+      'search' => array(
+        'operator' => '=',
+        'value' => '',
+        'group' => '0',
+        'exposed' => TRUE,
+        'expose' => array(
+          'operator' => '',
+          'identifier' => 'search',
+          'label' => 'Search',
+          'optional' => 1,
+          'single' => 1,
+          'remember' => 0,
+        ),
+        'hideEmpty' => 0,
+        'matchMode' => '0',
+        'id' => 'search',
+        'table' => 'searchlight',
+        'field' => 'search',
+        'relationship' => 'none',
+      ),
+    );
+    $view->display_handler->override_option('filters', $filters);
+    $views[$view->name] = $view;
   }
 }

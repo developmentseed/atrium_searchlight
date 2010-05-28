@@ -17,12 +17,3 @@ function atrium_searchlight_searchlight_default_datasources() {
   $args = func_get_args();
   return call_user_func_array('_atrium_searchlight_searchlight_default_datasources', $args);
 }
-
-/**
- * Implementation of hook_views_default_views().
- */
-function atrium_searchlight_views_default_views() {
-  module_load_include('inc', 'atrium_searchlight', 'atrium_searchlight.features.views');
-  $args = func_get_args();
-  return call_user_func_array('_atrium_searchlight_views_default_views', $args);
-}
