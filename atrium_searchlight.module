@@ -1,0 +1,3 @@
+<?php
+
+include_once('atrium_searchlight.features.inc');

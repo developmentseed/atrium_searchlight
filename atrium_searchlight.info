@@ -1,0 +1,7 @@
+core = "6.x"
+dependencies[] = "context"
+description = "Searchlight search integration for Atrium"
+features[context][] = "searchlight_sitewide"
+name = "Atrium Searchlight"
+package = "Features"
+project = "atrium_searchlight"
