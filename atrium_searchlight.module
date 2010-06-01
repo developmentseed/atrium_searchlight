@@ -13,10 +13,33 @@ function atrium_searchlight_views_api() {
  * Implementation of hook_views_default_views_alter().
  */
 function atrium_searchlight_views_default_views_alter(&$views) {
+  if (isset($views['atrium_search'])) {
+    $view = $views['atrium_search'];
+    $view->set_display('default');
+    $filters = $view->display_handler->get_option('filters');
+
+    // Remove the created date filter.
+    if (isset($filters['created'])) {
+      unset($filters['created']);
+    }
+
+    // Add facets filter.
+    $filters['facets'] = array(
+      'id' => 'facets',
+      'table' => 'searchlight',
+      'field' => 'facets',
+    );
+    $view->display_handler->override_option('filters', $filters);
+
+    // Use AJAX.
+    $view->display_handler->override_option('use_ajax', TRUE);
+    $views[$view->name] = $view;
+  }
+
   if (isset($views['atrium_members'])) {
     $view = $views['atrium_members'];
     $view->set_display('default');
-    $filters = array(
+    $filters = $view->display_handler->get_option('filters') + array(
       'facets' => array(
         'id' => 'facets',
         'table' => 'searchlight',
