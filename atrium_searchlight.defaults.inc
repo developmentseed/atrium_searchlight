@@ -1,13 +1,62 @@
 <?php
 
 /**
+ * Helper to implementation of hook_context_default_contexts().
+ */
+function _atrium_searchlight_context_default_contexts() {
+  $export = array();
+  $context = new stdClass;
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'search_global_facets';
+  $context->description = '';
+  $context->tag = 'Search';
+  $context->conditions = array(
+    'views' => array(
+      'values' => array(
+        'atrium_search' => 'atrium_search',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'searchlight-facets_search_global_facets' => array(
+          'module' => 'searchlight',
+          'delta' => 'facets_search_global_facets',
+          'region' => 'right',
+          'weight' => 0,
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  $translatables['search_global_facets'] = array(
+    t('Search'),
+  );
+
+  $export['search_global_facets'] = $context;
+  return $export;
+}
+
+/**
  * Helper to implementation of hook_ctools_plugin_api().
  */
 function _atrium_searchlight_ctools_plugin_api() {
   $args = func_get_args();
   $module = array_shift($args);
   $api = array_shift($args);
-  if ($module == "searchlight" && $api == "datasource") {
+  if ($module == "context" && $api == "context") {
+    return array("version" => 3);
+  }
+  elseif ($module == "searchlight" && $api == "datasource") {
+    return array("version" => 1);
+  }
+  elseif ($module == "searchlight" && $api == "environment") {
+    return array("version" => 1);
+  }
+  elseif ($module == "strongarm" && $api == "strongarm") {
     return array("version" => 1);
   }
 }
@@ -152,5 +201,122 @@ function _atrium_searchlight_searchlight_default_datasources() {
   );
 
   $export['search_node'] = $searchlight_datasource;
+  return $export;
+}
+
+/**
+ * Helper to implementation of hook_searchlight_default_environments().
+ */
+function _atrium_searchlight_searchlight_default_environments() {
+  $export = array();
+  $searchlight_environment = new SearchlightEnvironment;
+  $searchlight_environment->disabled = FALSE; /* Edit this to true to make a default searchlight_environment disabled initially */
+  $searchlight_environment->api_version = 1;
+  $searchlight_environment->name = 'search_global_facets';
+  $searchlight_environment->view_display = 'atrium_search:page_1';
+  $searchlight_environment->facets = array(
+    'node_status' => array(
+      'enabled' => 0,
+      'weight' => '-2',
+      'label' => '',
+      'items' => '5',
+    ),
+    'node_created' => array(
+      'enabled' => 1,
+      'weight' => '-9',
+      'label' => '',
+      'items' => '10',
+      'granularity' => 'month',
+      'date_format' => 'F, Y',
+    ),
+    'users_name' => array(
+      'enabled' => 1,
+      'weight' => '-7',
+      'label' => '',
+      'items' => '10',
+    ),
+    'users_uid' => array(
+      'enabled' => 0,
+      'weight' => '-3',
+      'label' => '',
+      'items' => '5',
+    ),
+    'node_type' => array(
+      'enabled' => 1,
+      'weight' => '-8',
+      'label' => '',
+      'items' => '10',
+    ),
+    'node_og_ancestry_nid' => array(
+      'enabled' => 0,
+      'weight' => '-1',
+      'label' => '',
+      'items' => '5',
+    ),
+    'casetracker_case_assign_to' => array(
+      'enabled' => 0,
+      'weight' => '2',
+      'label' => '',
+      'items' => '5',
+    ),
+    'casetracker_case_case_priority_id' => array(
+      'enabled' => 0,
+      'weight' => '1',
+      'label' => '',
+      'items' => '5',
+    ),
+    'casetracker_case_case_status_id' => array(
+      'enabled' => 0,
+      'weight' => '0',
+      'label' => '',
+      'items' => '5',
+    ),
+    'casetracker_case_case_type_id' => array(
+      'enabled' => 0,
+      'weight' => '-4',
+      'label' => '',
+      'items' => '5',
+    ),
+    'casetracker_case_pid' => array(
+      'enabled' => 0,
+      'weight' => '-5',
+      'label' => '',
+      'items' => '5',
+    ),
+    'node_comment_statistics_last_updated' => array(
+      'enabled' => 0,
+      'weight' => '-6',
+      'label' => '',
+      'items' => '5',
+      'granularity' => 'month',
+      'date_format' => 'F, Y',
+    ),
+    'search_query' => array(
+      'enabled' => 1,
+      'weight' => '-10',
+      'label' => '',
+      'items' => 1,
+    ),
+  );
+  $searchlight_environment->options = array(
+    'facets_label' => 'Search facets',
+  );
+
+  $export['search_global_facets'] = $searchlight_environment;
+  return $export;
+}
+
+/**
+ * Helper to implementation of hook_strongarm().
+ */
+function _atrium_searchlight_strongarm() {
+  $export = array();
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'searchlight_datasource_node';
+  $strongarm->value = 'search_node';
+
+  $export['searchlight_datasource_node'] = $strongarm;
   return $export;
 }
