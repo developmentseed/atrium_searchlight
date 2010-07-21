@@ -154,14 +154,6 @@ function atrium_searchlight_searchlight_default_datasources() {
       'name' => 'users_name',
       'usage' => 'content',
     ),
-    'users_language' => array(
-      'label' => 'User: Language (language)',
-      'datatype' => 'text',
-      'table' => 'users',
-      'field' => 'language',
-      'name' => 'users_language',
-      'usage' => 'attribute',
-    ),
     'users_mail' => array(
       'label' => 'User: E-mail (mail)',
       'datatype' => 'text',
@@ -185,6 +177,24 @@ function atrium_searchlight_searchlight_default_datasources() {
       'field' => 'status',
       'name' => 'users_status',
       'usage' => 'attribute',
+    ),
+    'nid' => array(
+      'label_field' => array(
+        'label' => 'Node: Title (title)',
+        'datatype' => 'text',
+        'table' => 'node',
+        'field' => 'title',
+        'name' => 'node_og_uid_title',
+        'usage' => 'multivalue',
+      ),
+      'base_table' => 'users',
+      'view' => 'searchlight_og_uid:searchlight_multivalue_og',
+      'label' => 'Organic Groups',
+      'datatype' => 'int',
+      'table' => 'og_uid',
+      'field' => 'nid',
+      'name' => 'nid',
+      'usage' => 'multivalue',
     ),
   );
   $searchlight_datasource->filters = array();
