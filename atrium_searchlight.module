@@ -3,13 +3,6 @@
 include_once('atrium_searchlight.features.inc');
 
 /**
- * Implementation of hook_views_api().
- */
-function atrium_searchlight_views_api() {
-  return array('api' => 2);
-}
-
-/**
  * Implementation of hook_views_default_views_alter().
  */
 function atrium_searchlight_views_default_views_alter(&$views) {
