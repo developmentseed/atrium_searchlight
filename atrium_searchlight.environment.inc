@@ -9,7 +9,7 @@ function atrium_searchlight_searchlight_default_environments() {
   $searchlight_environment->disabled = FALSE; /* Edit this to true to make a default searchlight_environment disabled initially */
   $searchlight_environment->api_version = 1;
   $searchlight_environment->name = 'search_global';
-  $searchlight_environment->view_display = 'atrium_search:page_1';
+  $searchlight_environment->view_display = 'search_listing:page_1';
   $searchlight_environment->facets = array(
     'node_status' => array(
       'enabled' => 0,

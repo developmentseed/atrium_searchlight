@@ -6,8 +6,8 @@ include_once('atrium_searchlight.features.inc');
  * Implementation of hook_views_default_views_alter().
  */
 function atrium_searchlight_views_default_views_alter(&$views) {
-  if (isset($views['atrium_search'])) {
-    $view = $views['atrium_search'];
+  if (isset($views['search_listing'])) {
+    $view = $views['search_listing'];
 
     $filters = $view->display['default']->display_options['filters'];
     // Remove the created date filter.
@@ -27,8 +27,8 @@ function atrium_searchlight_views_default_views_alter(&$views) {
     $views[$view->name] = $view;
   }
 
-  if (isset($views['atrium_members'])) {
-    $view = $views['atrium_members'];
+  if (isset($views['members_listing'])) {
+    $view = $views['members_listing'];
     $view->display['default']->display_options['filters'] = $view->display['default']->display_options['filters'] + array(
       'facets' => array(
         'id' => 'facets',

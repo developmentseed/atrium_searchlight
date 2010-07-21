@@ -14,7 +14,7 @@ function atrium_searchlight_context_default_contexts() {
   $context->conditions = array(
     'views' => array(
       'values' => array(
-        'atrium_search' => 'atrium_search',
+        'search_listing' => 'search_listing',
       ),
     ),
   );
