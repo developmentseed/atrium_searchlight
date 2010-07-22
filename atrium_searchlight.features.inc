@@ -18,12 +18,3 @@ function atrium_searchlight_ctools_plugin_api() {
     return array("version" => 1);
   }
 }
-
-/**
- * Implementation of hook_views_api().
- */
-function atrium_searchlight_views_api() {
-  return array(
-    'api' => '2',
-  );
-}
