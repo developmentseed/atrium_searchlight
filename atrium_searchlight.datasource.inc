@@ -133,6 +133,24 @@ function atrium_searchlight_searchlight_default_datasources() {
       'name' => 'group_nid',
       'usage' => 'multivalue',
     ),
+    'term_data_tid_features_keywords' => array(
+      'label_field' => array(
+        'label' => 'Taxonomy: Term (name)',
+        'datatype' => 'text',
+        'table' => 'term_data',
+        'field' => 'name',
+        'name' => 'term_data_name',
+        'usage' => 'multivalue',
+      ),
+      'base_table' => 'node',
+      'view' => 'searchlight_term_data:searchlight_multivalue_features_keywords',
+      'label' => 'Keywords',
+      'datatype' => 'int',
+      'table' => 'term_data',
+      'field' => 'tid',
+      'name' => 'term_data_tid_features_keywords',
+      'usage' => 'multivalue',
+    ),
   );
   $searchlight_datasource->filters = array();
   $searchlight_datasource->options = array(
